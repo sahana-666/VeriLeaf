@@ -38,3 +38,20 @@ class MerkleTree:
 
     def __len__(self):
         return len(self.levels[0])
+    
+    def update(self, index: int, record) -> None:
+        """Replace one record and refresh only its path to the root: O(log n)."""
+        self._check_index(index)
+        self.levels[0][index] = hash_leaf(record)
+        for k in range(1, len(self.levels)):
+            index //= 2
+            below = self.levels[k - 1]
+            left = 2 * index
+            self.levels[k][index] = (
+                hash_node(below[left], below[left + 1])
+                if left + 1 < len(below) else below[left]
+            )
+
+    def _check_index(self, index: int) -> None:
+        if not 0 <= index < len(self):
+            raise IndexError(f"record index {index} out of range (0 to {len(self) - 1})")
