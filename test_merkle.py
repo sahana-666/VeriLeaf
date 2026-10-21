@@ -25,3 +25,65 @@ class TestBuild(unittest.TestCase):
     def test_empty_rejected(self):
         with self.assertRaises(ValueError):
             MerkleTree([])
+    
+
+class TestUpdate(unittest.TestCase):
+    def test_update_matches_rebuild(self):
+        for n in (1, 2, 5, 8, 13):
+            tree, changed = MerkleTree(records(n)), records(n)
+            changed[n // 2] = "changed"
+            tree.update(n // 2, "changed")
+            self.assertEqual(tree.root, MerkleTree(changed).root)
+
+    def test_bad_index_raises(self):
+        tree = MerkleTree(records(3))
+        for bad in (3, -1, 10):
+            with self.assertRaises(IndexError):
+                tree.update(bad, "x")
+
+
+class TestAppend(unittest.TestCase):
+    def test_append_matches_rebuild(self):
+        tree = MerkleTree(records(5))
+        tree.append("record-5")
+        self.assertEqual(tree.root, MerkleTree(records(6)).root)
+
+
+class TestPrintTree(unittest.TestCase):
+    def test_print_tree_shows_root_and_leaves(self):
+        import io
+        import contextlib
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            MerkleTree(records(3)).print_tree()
+        out = buf.getvalue()
+        self.assertIn("root", out)
+        self.assertIn("leaves", out)
+        self.assertEqual(len(out.strip().splitlines()), 3)
+
+
+class TestSaveLoad(unittest.TestCase):
+    def test_round_trip(self):
+        import os
+        import tempfile
+        tree = MerkleTree(records(5))
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "tree.json")
+            tree.save(path)
+            self.assertEqual(MerkleTree.load(path).root, tree.root)
+
+    def test_edited_file_is_rejected(self):
+        import json
+        import os
+        import tempfile
+        tree = MerkleTree(records(3))
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "tree.json")
+            tree.save(path)
+            with open(path) as f:
+                data = json.load(f)
+            data["leaves"][1] = "00" * 32
+            with open(path, "w") as f:
+                json.dump(data, f)
+            with self.assertRaises(ValueError):
+                MerkleTree.load(path)
