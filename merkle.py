@@ -5,6 +5,7 @@ off as an internal node. An unpaired node at the end of a level is promoted unch
 so no record is ever duplicated.
 """
 import hashlib
+import json
 
 
 def hash_leaf(record) -> bytes:
@@ -68,4 +69,26 @@ class MerkleTree:
         for k in range(top, -1, -1):
             label = "root" if k == top else ("leaves" if k == 0 else f"level {k}")
             print(f"{label:>8}: " + " ".join(h.hex()[:6] for h in self.levels[k]))
-            
+    
+    @classmethod
+    def from_leaf_hashes(cls, hashes):
+        """Rebuild a tree from stored leaf hashes (no original records needed)."""
+        if not hashes:
+            raise ValueError("need at least one leaf hash")
+        tree = cls.__new__(cls)
+        tree.levels = [list(hashes)]
+        tree._build_upper()
+        return tree
+
+    def save(self, path: str) -> None:
+        with open(path, "w") as f:
+            json.dump({"leaves": [h.hex() for h in self.levels[0]], "root": self.root.hex()}, f)
+
+    @classmethod
+    def load(cls, path: str) -> "MerkleTree":
+        with open(path) as f:
+            data = json.load(f)
+        tree = cls.from_leaf_hashes([bytes.fromhex(h) for h in data["leaves"]])
+        if tree.root.hex() != data["root"]:
+            raise ValueError("file is corrupted or has been tampered with")
+        return tree
