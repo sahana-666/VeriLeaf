@@ -31,3 +31,50 @@ button:focus-visible,input:focus-visible{outline:3px solid #2b7fff;outline-offse
 <button id="seal">Seal records</button> <button id="reset" style="background:#fff;color:var(--ink)">Reset</button></section>
 <section><div id="status" aria-live="polite"></div><div class="tree" id="tree"></div></section>
 </div></main>
+<script>
+const ORIGINAL=["Cert 101 - Asha","Cert 102 - Ravi","Cert 103 - Meera","Cert 104 - John","Cert 105 - Priya","Cert 106 - Arun","Cert 107 - Divya","Cert 108 - Karan"];
+let records=[...ORIGINAL],sealed=null;
+const enc=new TextEncoder(),hex=a=>[...a].map(x=>x.toString(16).padStart(2,"0")).join("");
+const H=async(p,...parts)=>new Uint8Array(await crypto.subtle.digest("SHA-256",new Uint8Array([p,...parts.flatMap(x=>[...x])])));
+async function build(recs){ // same rules as merkle.py: 0 = leaf prefix, 1 = node prefix
+  const lv=[await Promise.all(recs.map(r=>H(0,enc.encode(r))))];
+  while(lv.at(-1).length>1){const c=lv.at(-1),n=[];
+    for(let i=0;i<c.length;i+=2)n.push(i+1<c.length?await H(1,c[i],c[i+1]):c[i]);lv.push(n);}
+  return lv.map(l=>l.map(hex));
+}
+</script>
+```
+
+### Commit 3: `render the tree and highlight tampered records`
+
+**Append to `index.html`**
+
+```html
+<script>
+async function render(){
+  const now=await build(records);
+  const tree=document.getElementById("tree");tree.innerHTML="";
+  const changedLeaves=[];
+  for(let k=now.length-1;k>=0;k--){
+    const row=document.createElement("div");row.className="row";
+    now[k].forEach((h,j)=>{
+      const bad=sealed[k][j]!==h;if(bad&&k===0)changedLeaves.push(j);
+      const d=document.createElement("div");d.className="node"+(bad?" bad":"");
+      d.innerHTML=h.slice(0,6)+(k===now.length-1?'<span class="tag">root</span>':k===0?'<span class="tag">record '+(j+1)+'</span>':"");
+      row.appendChild(d);});
+    tree.appendChild(row);}
+  document.querySelectorAll("#recs input").forEach((el,i)=>el.classList.toggle("bad",changedLeaves.includes(i)));
+  const s=document.getElementById("status");
+  if(!changedLeaves.length){s.className="ok";s.textContent="Root matches the sealed root. No tampering detected.";}
+  else{s.className="bad";s.textContent="Root mismatch. Tampered: "+changedLeaves.map(i=>"record "+(i+1)).join(", ")+" (found by comparing hashes down from the root).";}
+}
+function inputs(){
+  const box=document.getElementById("recs");box.innerHTML="";
+  records.forEach((r,i)=>{const d=document.createElement("div");d.className="rec";
+    d.innerHTML='<span>'+(i+1)+'</span><input aria-label="Record '+(i+1)+'">';
+    const inp=d.querySelector("input");inp.value=r;inp.oninput=()=>{records[i]=inp.value;render();};box.appendChild(d);});
+}
+document.getElementById("seal").onclick=async()=>{sealed=await build(records);render();};
+document.getElementById("reset").onclick=async()=>{records=[...ORIGINAL];inputs();sealed=await build(records);render();};
+(async()=>{inputs();sealed=await build(records);render();})();
+</script></body></html>
