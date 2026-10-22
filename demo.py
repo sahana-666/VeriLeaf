@@ -29,3 +29,16 @@ print(
     f"{len(proof)} hashes (of {len(certificates)} records):",
     verify_proof(certificates[2], proof, sealed.root)
 )
+
+tampered = list(certificates)
+tampered[5] = "Cert 106 - Forged Name"
+
+now = MerkleTree(tampered)
+
+print("\nCurrent root:", now.root.hex()[:16], "... match:", now.root == sealed.root)
+
+for i in find_changed(sealed, now):
+    print(
+        f"TAMPERED -> record {i + 1}: "
+        f"'{certificates[i]}' was changed to '{tampered[i]}'"
+    )
