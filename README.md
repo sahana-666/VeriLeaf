@@ -37,3 +37,21 @@ Install dependencies using `pip install -r requirements.txt` if needed for the g
 
 VeriLeaf detects tampering in digital records and pinpoints exactly which record was changed,
 using a Merkle (hash) tree built in Python.
+## Screenshots
+
+![Sealed records](docs/screenshot-sealed.png)
+
+![Tampered record](docs/screenshot-tampered.png)
+
+## Team
+
+| Member | Contribution |
+|---|---|
+| Replace with actual name | Core Merkle tree, repository setup, reviews |
+| Replace with actual name | Proofs and finding changed records |
+| Replace with actual name | Sample data, benchmark and graph |
+| Replace with actual name | Dashboard, demo and documentation |
+
+## Note on AI assistance
+
+The initial code was AI-assisted. The team reviewed, tested and extended it, and each member can explain the part they worked on.
