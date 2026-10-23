@@ -33,10 +33,13 @@ Install dependencies using `pip install -r requirements.txt` if needed for the g
 | Verify one record using a proof | O(log n) |
 | Update one record | O(log n) |
 | Locate k tampered records | O(k log n) |
-| Append a record | O(n) |# VeriLeaf: Tamper-Evident Record Verification Using Merkle Trees
+| Append a record | O(n) |
+
+# VeriLeaf: Tamper-Evident Record Verification Using Merkle Trees
 
 VeriLeaf detects tampering in digital records and pinpoints exactly which record was changed,
 using a Merkle (hash) tree built in Python.
+
 ## Screenshots
 
 ![Sealed records](docs/screenshot-sealed.png)
@@ -47,10 +50,10 @@ using a Merkle (hash) tree built in Python.
 
 | Member | Contribution |
 |---|---|
-| Replace with actual name | Core Merkle tree, repository setup, reviews |
-| Replace with actual name | Proofs and finding changed records |
-| Replace with actual name | Sample data, benchmark and graph |
-| Replace with actual name | Dashboard, demo and documentation |
+| Sahana Arunprasath | Core Merkle tree, repository setup, reviews |
+| Kanishka S | Proofs and finding changed records |
+| Haricharan | Sample data, benchmark and graph |
+| Sanjana Chowdhary | Dashboard, demo and documentation |
 
 ## Note on AI assistance
 
