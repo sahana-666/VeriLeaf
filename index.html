@@ -30,7 +30,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #2b7fff;outline-offse
 <div class="grid">
 <section><label>Certificates</label><div id="recs"></div>
 <button id="add" style="background:#fff;color:var(--ink)">Add certificate</button>
-<button id="seal">Seal records</button> <button id="reset" style="background:#fff;color:var(--ink)">Reset</button></section>
+<button id="seal">Seal records</button> <button id="reset" style="background:#fff;color:var(--ink)">Revert to sealed</button></section>
 <section><div id="status" aria-live="polite"></div><div class="tree" id="tree"></div></section>
 </div></main>
 <script>
@@ -75,7 +75,8 @@ function inputs(){
     box.appendChild(d);});
 }
 document.getElementById("add").onclick=()=>{records.push("Cert "+(101+records.length)+" - New");inputs();render();};
-document.getElementById("seal").onclick=async()=>{sealed=await build(records);render();};
-document.getElementById("reset").onclick=async()=>{records=[...ORIGINAL];inputs();sealed=await build(records);render();};
+let sealedRecords=[...ORIGINAL];
+document.getElementById("seal").onclick=async()=>{sealed=await build(records);sealedRecords=[...records];render();};
+document.getElementById("reset").onclick=()=>{records=[...sealedRecords];inputs();render();};
 (async()=>{inputs();sealed=await build(records);render();})();
 </script></body></html>
