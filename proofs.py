@@ -1,4 +1,3 @@
-from merkle import hash_leaf, hash_node
 """Merkle proofs: prove one record belongs to a tree without revealing the others."""
 from merkle import hash_leaf, hash_node
 
