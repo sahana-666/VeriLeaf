@@ -1,104 +1,40 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>VeriLeaf – tamper detection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VeriLeaf: tamper detection</title>
 <style>
-:root{--ink:#14232b;--mute:#58707a;--bg:#eaf0f3;--card:#fff;--line:#cfdbe0;--ok:#0f6b5c;--okbg:#dff2ec;--bad:#c0341d;--badbg:#fde6e1;--warn:#8a5a00;--warnbg:#fff1d6;--acc:#14232b;--accfg:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark) and (max-width:0px){:root:not([data-theme="light"]){--ink:#e6eef1;--mute:#93aab3;--bg:#0f1a20;--card:#17262e;--line:#2b414b;--ok:#5fd3b8;--okbg:#12362f;--bad:#ff8a74;--badbg:#3d1d17;--warn:#f2c260;--warnbg:#3a2d10;--acc:#e6eef1;--accfg:#0f1a20}}
-:root[data-theme="dark"]{--ink:#e6eef1;--mute:#93aab3;--bg:#0f1a20;--card:#17262e;--line:#2b414b;--ok:#5fd3b8;--okbg:#12362f;--bad:#ff8a74;--badbg:#3d1d17;--warn:#f2c260;--warnbg:#3a2d10;--acc:#e6eef1;--accfg:#0f1a20}
+:root{--ink:#0b1230;--mute:#4a5578;--bg:#eef3ff;--card:#fff;--line:#c5cdea;--ok:#006b36;--okbg:#c9ffe0;--bad:#c4123a;--badbg:#ffe0e8;--warn:#7a4f00;--warnbg:#fff0b8;--acc:#1fd157}
 *{box-sizing:border-box}html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line)}
-.top h1{margin:0;font-size:1.25rem;letter-spacing:.2px}.top small{color:var(--mute);display:block;font-weight:400;font-size:.8rem}
-.badge{padding:6px 14px;border-radius:99px;font-weight:700;font-size:.85rem;background:var(--line);color:var(--mute)}
-.badge.ok{background:var(--okbg);color:var(--ok)}.badge.bad{background:var(--badbg);color:var(--bad)}
-main{max-width:1180px;margin:0 auto;padding:20px 16px 48px;display:grid;gap:18px}
-#banner{border-radius:10px;padding:16px 20px;border:1px solid var(--line);background:var(--card)}
-#banner.ok{background:var(--okbg);border-color:var(--ok)}#banner.bad{background:var(--badbg);border-color:var(--bad)}
-#banner h2{margin:0 0 4px;font-size:1.15rem}#banner.ok h2{color:var(--ok)}#banner.bad h2{color:var(--bad)}
-#banner p{margin:2px 0}.fp{font:12px ui-monospace,Menlo,monospace;word-break:break-all}
-.cols{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:18px}
-@media(max-width:820px){.cols{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
-.card h3{margin:0 0 2px;font-size:1rem}.card .hint{color:var(--mute);font-size:.85rem;margin:0 0 10px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:10px}
-.seg button{border:0;border-radius:0;margin:0;background:transparent;color:var(--ink);padding:6px 14px}
-.seg button[aria-pressed="true"]{background:var(--acc);color:var(--accfg)}
-textarea{width:100%;min-height:210px;resize:vertical;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:13px/1.6 ui-monospace,Menlo,monospace}
-button{font:inherit;padding:7px 13px;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:var(--accfg);cursor:pointer;margin:8px 6px 0 0}
-button.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid #2b7fff;outline-offset:1px}
-.scroll{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);font-size:.88rem}
-th{color:var(--mute);font-weight:600}td.h{font:12px ui-monospace,Menlo,monospace}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;background:var(--ink);border-bottom:3px solid var(--acc)}
+.top h1{margin:0;font-size:1.4rem;color:var(--acc)}.top small{display:block;color:#b7c3f0;font-weight:400;font-size:.8rem}
+.badge{padding:6px 14px;border-radius:99px;font-weight:700;font-size:.85rem;background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.badge.ok{background:var(--acc)}.badge.bad{background:var(--bad);color:#fff}.badge.wait{background:var(--warnbg)}
+main{max-width:1180px;margin:0 auto;padding:24px 16px 60px;display:grid;gap:26px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.card,#banner{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:18px;box-shadow:5px 6px 0 var(--ink);min-width:0}
+#banner.ok{background:var(--okbg)}#banner.bad{background:var(--badbg)}#banner.wait{background:var(--warnbg)}
+#banner h2{margin:0 0 4px;font-size:1.25rem}#banner.ok h2{color:var(--ok)}#banner.bad h2{color:var(--bad)}#banner p{margin:3px 0}
+h3{margin:0 0 2px;font-size:1rem}.hint{color:var(--mute);font-size:.85rem;margin:0 0 10px}
+.fp{font:12px ui-monospace,Menlo,monospace;word-break:break-all}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.seg button{border:0;border-radius:0;margin:0;box-shadow:none;background:#fff;color:var(--ink)}.seg button[aria-pressed="true"]{background:var(--ink);color:var(--acc)}
+textarea{width:100%;min-height:200px;resize:vertical;padding:8px;border:2px solid var(--ink);border-radius:8px;background:#f7f9ff;color:var(--ink);font:13px/1.6 ui-monospace,Menlo,monospace}
+button{font:inherit;font-weight:700;padding:7px 13px;border-radius:8px;border:2px solid var(--ink);background:var(--acc);color:var(--ink);cursor:pointer;margin:8px 8px 0 0;box-shadow:3px 4px 0 var(--ink)}
+button.ghost{background:#fff}button:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+button:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #2b7fff;outline-offset:2px}
+.base{background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:6px}.base b{display:inline-block;min-width:76px}
+.scroll,.tree{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);font-size:.88rem}th{border-bottom:2px solid var(--ink)}td.h{font:12px ui-monospace,Menlo,monospace}
 .pill{padding:2px 9px;border-radius:99px;font-size:.78rem;font-weight:700}
-.pill.intact{background:var(--okbg);color:var(--ok)}.pill.modified,.pill.removed{background:var(--badbg);color:var(--bad)}.pill.added{background:var(--warnbg);color:var(--warn)}
-.tree{overflow-x:auto}.lvl{margin-bottom:12px;min-width:620px}.cap{font-size:.8rem;color:var(--mute);margin-bottom:4px}
-.row{display:flex;gap:6px}
-.node{flex:1;min-width:0;text-align:center;font:12px ui-monospace,Menlo,monospace;padding:6px 2px;border:1.5px solid var(--ok);background:var(--okbg);color:var(--ok);border-radius:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.node.bad{border-color:var(--bad);background:var(--badbg);color:var(--bad);font-weight:700}
-.node small{display:block;font:11px system-ui;color:var(--mute);overflow:hidden;text-overflow:ellipsis}
-#log{list-style:none;margin:0;padding:0;font-size:.85rem;max-height:170px;overflow:auto}
-#log li{padding:3px 0;border-bottom:1px solid var(--line)}#log time{color:var(--mute);margin-right:8px;font-variant-numeric:tabular-nums}
-:root:root{--ink:#0b1230;--mute:#4a5578;--bg:#eef3ff;--card:#fff;--line:#c5cdea;--ok:#006b36;--okbg:#c9ffe0;--bad:#d1163f;--badbg:#ffe0e8;--warn:#8a5a00;--warnbg:#fff0b8;--acc:#0b1230;--accfg:#39ff14}
-body{background-color:var(--bg);background-image:radial-gradient(#0b123022 1px,transparent 1px);background-size:18px 18px}
-.top{background:#0b1230;border-bottom:3px solid #39ff14}
-.top h1{color:#39ff14;text-shadow:0 0 12px #39ff1488;font-size:1.4rem}.top small{color:#b7c3f0}
-.badge{background:#fff;color:#0b1230;border:2px solid #0b1230;box-shadow:2px 2px 0 #0b1230}
-.badge.ok{background:#39ff14;color:#0b1230;box-shadow:0 0 14px #39ff14,2px 2px 0 #0b1230}
-.badge.bad{background:#ff2e63;color:#fff;box-shadow:0 0 14px #ff2e6388,2px 2px 0 #0b1230}
-.card,#banner{border:2px solid #0b1230;border-radius:12px;box-shadow:5px 5px 0 #0b1230}
-#banner.ok{background:#c9ffe0;border-color:#0b1230;box-shadow:6px 6px 0 #39ff14,6px 6px 0 2px #0b1230}
-#banner.bad{background:#ffe0e8;border-color:#0b1230;box-shadow:6px 6px 0 #ff2e63,6px 6px 0 2px #0b1230}
-#banner h2{font-size:1.3rem}
-button{background:#39ff14;color:#0b1230;border:2px solid #0b1230;font-weight:700;box-shadow:3px 3px 0 #0b1230;transition:transform .08s,box-shadow .08s}
-button.ghost{background:#fff}
-button:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #0b1230}
-button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0b1230}
-.seg{border:2px solid #0b1230;box-shadow:3px 3px 0 #0b1230}
-.seg button,.seg button:hover,.seg button:active{box-shadow:none;transform:none;background:#fff;color:#0b1230}
-.seg button[aria-pressed="true"]{background:#0b1230;color:#39ff14}
-textarea{background:#f7f9ff;border:2px solid #0b1230}
-th{color:#0b1230;border-bottom:2px solid #0b1230}
-.pill.intact{background:#39ff14;color:#0b1230}.pill.modified,.pill.removed{background:#ff2e63;color:#fff}.pill.added{background:#ffd23f;color:#0b1230}
-.node{background:#c9ffe0;border:2px solid #00a651;color:#005c2e}
-.node.bad{background:#ff2e63;border-color:#0b1230;color:#fff;box-shadow:0 0 10px #ff2e6388}
-.node.bad small{color:#ffe3ea}
-:root:root{--okbg:#b4f5cf;--accfg:#1fd157}
-.top{border-bottom:3px solid #1fd157}
-.top h1{color:#1fd157;text-shadow:0 0 12px #1fd15788}
-.badge{box-shadow:2px 5px 0 #0b1230}
-.badge.ok{background:#1fd157;box-shadow:0 0 14px #1fd157,2px 5px 0 #0b1230}
-.badge.bad{box-shadow:0 0 14px #ff2e6388,2px 5px 0 #0b1230}
-.card{box-shadow:6px 11px 0 #0b1230}
-#banner{box-shadow:6px 11px 0 #0b1230}
-#banner.ok{background:#b4f5cf;box-shadow:7px 12px 0 #1fd157,7px 12px 0 2px #0b1230}
-#banner.bad{box-shadow:7px 12px 0 #ff2e63,7px 12px 0 2px #0b1230}
-button{background:#1fd157;box-shadow:3px 7px 0 #0b1230}
-button.ghost{background:#fff}
-button:hover{box-shadow:4px 9px 0 #0b1230}
-button:active{box-shadow:1px 2px 0 #0b1230}
-.seg{box-shadow:3px 7px 0 #0b1230}
-.seg button,.seg button:hover,.seg button:active{box-shadow:none;background:#fff;color:#0b1230}
-.seg button[aria-pressed="true"]{background:#0b1230;color:#1fd157}
-.pill.intact{background:#1fd157}
-.node{background:#b4f5cf;border-color:#008f45;color:#004d26}
-.node.bad{background:#ff2e63;border-color:#0b1230;color:#fff}
-main{gap:44px;padding:30px 20px 80px}
-.cols{gap:44px}
-.card{padding:22px}
-#banner{padding:20px 24px}
-button{margin:12px 10px 0 0}
-.seg button{margin:0}
-.lvl{margin-bottom:20px}
-th,td{padding:9px 10px}
-#log li{padding:6px 0}
-.top h1{text-shadow:none}
-.badge.ok,.badge.bad{box-shadow:2px 5px 0 #0b1230}
-.node.bad{box-shadow:none}
-.pill.added{background:#d9deef;color:#0b1230}
+.pill.intact{background:var(--acc)}.pill.modified,.pill.removed{background:var(--bad);color:#fff}.pill.added{background:#ffd23f}
+.lvl{margin-bottom:16px;min-width:620px}.cap{font-size:.8rem;color:var(--mute);margin-bottom:4px}.row{display:flex;gap:6px}
+.node{flex:1;min-width:0;text-align:center;font:12px ui-monospace,Menlo,monospace;padding:6px 2px;border:2px solid #008f45;background:var(--okbg);color:#004d26;border-radius:6px;overflow:hidden;text-overflow:ellipsis}
+.node.bad{background:var(--bad);border-color:var(--ink);color:#fff;font-weight:700}.node small{display:block;font:11px system-ui;overflow:hidden;text-overflow:ellipsis}
+#log{list-style:none;margin:0;padding:0;font-size:.85rem;max-height:170px;overflow:auto}#log li{padding:5px 0;border-bottom:1px solid var(--line)}#log time{color:var(--mute);margin-right:8px}
+details ol{margin:8px 0 0;padding-left:20px}details li{margin:3px 0}summary{cursor:pointer;font-weight:700}
 </style></head><body>
-<div class="top"><h1>VeriLeaf<small>Merkle-tree tamper detection for any data</small></h1><span id="badge" class="badge">Not sealed</span></div>
+<div class="top"><h1>VeriLeaf<small>Tamper detection for any data, built on a Merkle tree</small></h1><span id="badge" class="badge">No baseline</span></div>
 <main>
 <div id="banner" aria-live="polite"></div>
 <div class="cols">
@@ -106,75 +42,94 @@ th,td{padding:9px 10px}
 <div class="seg" role="group" aria-label="Data mode"><button id="mText" aria-pressed="true">Text</button><button id="mFiles" aria-pressed="false">Files</button></div>
 <div id="textBox"><textarea id="txt" aria-label="Records, one per line" spellcheck="false"></textarea></div>
 <div id="fileBox" hidden><input type="file" id="files" multiple aria-label="Choose files"><p class="hint">Each file is one record, matched by file name.</p></div>
-<h3 style="margin-top:12px">2. Seal, then verify</h3><p class="hint">Sealing saves the fingerprints as the trusted version. Verification runs on every change.</p>
-<button id="seal">Seal data</button><button class="ghost" id="restore">Restore sealed text</button>
-<button class="ghost" id="save">Save seal file</button><button class="ghost" id="loadb">Load seal file</button><input type="file" id="load" accept=".json" hidden>
-<p id="msg" class="hint" style="margin-top:10px;font-weight:600" aria-live="polite"></p>
 </section>
-<section class="card"><h3>3. Findings</h3><p class="hint">Every record with its sealed and current fingerprint.</p>
-<div class="scroll"><table><thead><tr><th>Record</th><th>Status</th><th>Sealed</th><th>Current</th></tr></thead><tbody id="rows"></tbody></table></div></section>
-</div>
-<section class="card"><h3>Where the change travels</h3><p class="hint">Red fingerprints trace the path from the changed record up to the root.</p><div class="tree" id="tree"></div></section>
-<section class="card"><h3>Activity log</h3><ul id="log"></ul></section>
+<section class="card"><h3>2. Trusted baseline</h3>
+<p class="hint">The baseline is a saved fingerprint of the data when it was known to be good. Checking never changes it.</p>
+<div class="base" id="base"></div>
+<button id="create">Create baseline from this data</button>
+<button id="accept" class="ghost">Accept current data as new baseline</button>
+<button id="restore" class="ghost">Restore text to baseline</button><br>
+<button id="save" class="ghost">Save baseline file</button><button id="loadb" class="ghost">Load baseline file</button><input type="file" id="load" accept=".json" hidden>
+<p class="hint" id="why" style="margin-top:10px"></p>
+</section></div>
+<section class="card"><h3>3. Findings: what changed and where</h3><p class="hint">Checked automatically on every change.</p>
+<div class="scroll"><table><thead><tr><th>Record</th><th>Status</th><th>Baseline</th><th>Now</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<section class="card"><h3>Where the change travels</h3><p class="hint">Red fingerprints trace the path from each changed record up to the root.</p><div class="tree" id="tree"></div></section>
+<section class="card"><details><summary>How to demo it</summary><ol>
+<li>Press <b>Create baseline</b>. The current data is now the trusted version.</li>
+<li>Edit one line. The banner turns red and names the record, and the red path leads to the root.</li>
+<li>Press <b>Restore text to baseline</b>. It goes green again.</li>
+<li>Press <b>Save baseline file</b>, then change a line again.</li>
+<li>Press <b>Load baseline file</b> and pick the saved file. Your data is checked against it and shows red.</li>
+<li>Use <b>Accept current data as new baseline</b> only when you really want the changes to become the trusted version.</li></ol></details>
+<h3 style="margin-top:14px">Activity log</h3><ul id="log"></ul></section>
 </main>
 <script>
 const $=id=>document.getElementById(id),enc=new TextEncoder();
 const hex=a=>[...a].map(x=>x.toString(16).padStart(2,"0")).join(""),unhex=s=>new Uint8Array(s.match(/../g).map(h=>parseInt(h,16)));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const short=h=>h?h.slice(0,10)+"…":"-";
 const H=async(p,...b)=>{const u=new Uint8Array(1+b.reduce((n,x)=>n+x.length,0));u[0]=p;let o=1;for(const x of b){u.set(x,o);o+=x.length}return new Uint8Array(await crypto.subtle.digest("SHA-256",u))};
-async function levels(hs){ // same rules as merkle.py: 0 = leaf prefix, 1 = node prefix
-  let lv=[hs.map(h=>h)];let cur=hs.map(unhex);if(!cur.length)return[[]];
-  while(cur.length>1){const n=[];for(let i=0;i<cur.length;i+=2)n.push(i+1<cur.length?await H(1,cur[i],cur[i+1]):cur[i]);cur=n;lv.push(n.map(hex))}
-  return lv}
-let mode="text",fileItems=[],sealed=null,logs=[];
+async function levels(hs){if(!hs.length)return[[]];let lv=[hs],cur=hs.map(unhex); // same rules as merkle.py: 0 = leaf prefix, 1 = node prefix
+  while(cur.length>1){const n=[];for(let i=0;i<cur.length;i+=2)n.push(i+1<cur.length?await H(1,cur[i],cur[i+1]):cur[i]);cur=n;lv.push(n.map(hex))}return lv}
+let mode="text",fileItems=[],base=null,logs=[],lastKey=null;
 const SAMPLE=["Cert 101 - Asha","Cert 102 - Ravi","Cert 103 - Meera","Cert 104 - John","Cert 105 - Priya","Cert 106 - Arun","Cert 107 - Divya","Cert 108 - Karan"];
-function log(t){$("msg").textContent=t;logs.unshift([new Date().toLocaleTimeString(),t]);$("log").innerHTML=logs.slice(0,30).map(l=>`<li><time>${l[0]}</time>${l[1]}</li>`).join("")}
-async function items(){
-  if(mode==="files")return fileItems;
-  let ls=$("txt").value.split("\n");if(ls.length&&ls.at(-1)==="")ls.pop();
+function log(t){logs.unshift([new Date().toLocaleTimeString(),t]);$("log").innerHTML=logs.slice(0,30).map(l=>`<li><time>${l[0]}</time>${esc(l[1])}</li>`).join("")}
+async function items(){if(mode==="files")return fileItems;let ls=$("txt").value.split("\n");if(ls.length&&ls.at(-1)==="")ls.pop();
   return Promise.all(ls.map(async(l,i)=>({label:"Line "+(i+1),hash:hex(await H(0,enc.encode(l)))})))}
-const short=h=>h?h.slice(0,10)+"…":"–";
+function banner(cls,html,badge,bcls){$("banner").className=cls;$("banner").innerHTML=html;$("badge").textContent=badge;$("badge").className="badge "+bcls}
 async function render(){
-  const cur=await items(),lv=await levels(cur.map(c=>c.hash)),root=lv.at(-1)[0]||"";
-  if(!sealed){$("banner").className="";$("banner").innerHTML="<h2>Not sealed yet</h2><p>Add your data, then press Seal data to save the trusted fingerprints.</p>";$("badge").className="badge";$("badge").textContent="Not sealed";$("rows").innerHTML="";drawTree(lv,null);return}
+  disarm();const cur=await items(),lv=await levels(cur.map(c=>c.hash)),root=lv.at(-1)[0]||"",none='<tr><td colspan="4">Nothing to compare yet.</td></tr>';
+  const btn=(differs)=>{$("create").hidden=!!base&&base.mode===mode;$("accept").hidden=!base;$("accept").disabled=!(base&&differs&&cur.length&&base.mode===mode);
+    $("restore").hidden=mode!=="text";$("restore").disabled=!(base&&base.text!=null&&base.mode==="text"&&differs);$("save").disabled=!base;$("create").disabled=!cur.length;
+    $("why").textContent=!base?"":base.mode!==mode?"Switch to the matching tab to compare, or create a new baseline from this tab.":(mode==="files"&&!cur.length)?"Choose the files to check.":!differs?"Accept is only available when the data differs from the baseline.":"Accept makes the current data the new trusted version. Use it only for changes you approve."};
+  $("base").innerHTML=base?`<div><b>Records</b>${base.items.length} (${base.mode})</div><div><b>Root</b><span class="fp">${base.root}</span></div><div><b>Created</b>${esc(base.time)}</div><div><b>Source</b>${esc(base.source)}</div>`:"No baseline yet.";
+  if(!base){btn(false);$("rows").innerHTML=none;drawTree(lv,null);
+    return banner("","<h2>No baseline yet</h2><p>Step 1: put your data in the box (or choose files). Step 2: press <b>Create baseline</b> to save it as the trusted version. Step 3: any change after that is detected.</p>","No baseline","")}
+  if(base.mode!==mode){btn(false);$("rows").innerHTML=none;drawTree([[]],null);
+    return banner("wait",`<h2>Wrong data type</h2><p>This baseline was made from ${base.mode==="files"?"files":"text"}. Switch to the ${base.mode==="files"?"Files":"Text"} tab to check it, or press <b>Create baseline</b> to replace it with the data in this tab.</p>`,"Waiting","wait")}
+  if(mode==="files"&&!cur.length){btn(false);$("rows").innerHTML=none;drawTree([[]],null);
+    return banner("wait",`<h2>Baseline ready, waiting for files</h2><p>Choose the files you want to check against the baseline (${base.items.length} records, root ${short(base.root)}).</p>`,"Waiting","wait")}
   let rows=[];
-  if(sealed.mode==="files"&&mode==="files"){const m=new Map(sealed.items.map(i=>[i.label,i.hash])),seen=new Set();
+  if(mode==="files"){const m=new Map(base.items.map(i=>[i.label,i.hash])),seen=new Set();
     cur.forEach(c=>{seen.add(c.label);const s=m.get(c.label);rows.push({l:c.label,st:s===undefined?"added":s===c.hash?"intact":"modified",s,c:c.hash})});
-    sealed.items.forEach(i=>{if(!seen.has(i.label))rows.push({l:i.label,st:"removed",s:i.hash})})}
-  else{const n=Math.max(cur.length,sealed.items.length);for(let i=0;i<n;i++){const s=sealed.items[i],c=cur[i];rows.push({l:(c||s).label,st:!s?"added":!c?"removed":s.hash===c.hash?"intact":"modified",s:s&&s.hash,c:c&&c.hash})}}
-  const bad=rows.filter(r=>r.st!=="intact"),ok=!bad.length&&root===sealed.root;
-  $("banner").className=ok?"ok":"bad";
-  $("banner").innerHTML=ok?`<h2>Intact: no tampering detected</h2><p>The current root fingerprint matches the sealed one.</p><p class="fp">Root ${root}</p>`
-   :`<h2>Tampered: ${bad.map(r=>({modified:"Modified",added:"Added",removed:"Removed"}[r.st])+": "+r.l).join(", ")}</h2><p>The root fingerprint changed, so the data is no longer what was sealed.</p><p class="fp">Sealed root ${sealed.root}</p><p class="fp">Current root ${root}</p>`;
-  $("badge").className="badge "+(ok?"ok":"bad");$("badge").textContent=ok?"Intact":"Tampered";
-  $("rows").innerHTML=rows.map(r=>`<tr><td>${r.l.replace(/</g,"&lt;")}</td><td><span class="pill ${r.st}">${r.st}</span></td><td class="h">${short(r.s)}</td><td class="h">${short(r.c)}</td></tr>`).join("");
-  drawTree(lv,sealed.levels);
-  const key=ok?"ok":bad.map(r=>r.st+r.l).join();if(key!==render.last){render.last=key;log(ok?"Verified: data intact":"Tampering detected: "+bad.map(r=>r.st+" "+r.l).join(", "))}}
-function drawTree(lv,ref){
-  let out="";for(let k=lv.length-1;k>=0;k--){
-    const cap=k===lv.length-1&&lv.length>1?"Root: one fingerprint for all the data":k===0?"Records: fingerprint of each item":"Combined: fingerprints of pairs from the level below";
+    base.items.forEach(i=>{if(!seen.has(i.label))rows.push({l:i.label,st:"removed",s:i.hash})})}
+  else for(let i=0;i<Math.max(cur.length,base.items.length);i++){const s=base.items[i],c=cur[i];
+    rows.push({l:(c||s).label,st:!s?"added":!c?"removed":s.hash===c.hash?"intact":"modified",s:s&&s.hash,c:c&&c.hash})}
+  const bad=rows.filter(r=>r.st!=="intact"),ok=!bad.length&&root===base.root;btn(!ok);
+  const W={modified:"Modified",added:"Added",removed:"Removed"};
+  ok?banner("ok",`<h2>Intact: no tampering detected</h2><p>The data matches the baseline. Root fingerprint:</p><p class="fp">${root}</p>`,"Intact","ok")
+    :banner("bad",`<h2>Tampering detected</h2><p>${bad.map(r=>`<b>${W[r.st]}:</b> ${esc(r.l)}`).join(" &nbsp; ")}</p><p>The root fingerprint changed, so the data is no longer what was trusted.</p><p class="fp">Baseline root ${base.root}</p><p class="fp">Current root &nbsp;&nbsp;${root}</p>`,"Tampered","bad");
+  $("rows").innerHTML=rows.map(r=>`<tr><td>${esc(r.l)}</td><td><span class="pill ${r.st}">${r.st}</span></td><td class="h">${short(r.s)}</td><td class="h">${short(r.c)}</td></tr>`).join("");
+  drawTree(lv,base.levels);
+  const key=ok?"ok":bad.map(r=>r.st+r.l).join();if(key!==lastKey){lastKey=key;log(ok?"Check: data matches the baseline.":"Check: TAMPERING, "+bad.map(r=>W[r.st].toLowerCase()+" "+r.l).join(", "))}}
+function drawTree(lv,ref){let out="";if(!lv[0].length)return $("tree").innerHTML='<p class="hint">Nothing to draw yet.</p>';
+  for(let k=lv.length-1;k>=0;k--){if(lv[k].length>32){out+=`<p class="hint">Level of ${lv[k].length} fingerprints not drawn. Changed records are listed in the table.</p>`;continue}
+    const cap=k===lv.length-1?"Root: one fingerprint for all the data":k===0?"Records: fingerprint of each item":"Level "+k+": fingerprints of pairs from the level below";
     out+=`<div class="lvl"><div class="cap">${cap}</div><div class="row">`+lv[k].map((h,j)=>{const bad=ref&&(ref[k]||[])[j]!==h;
-      return `<div class="node${bad?" bad":""}" title="${h}">${h.slice(0,8)}${k===0&&mode==="text"?`<small>Line ${j+1}</small>`:k===0&&fileItems[j]?`<small>${fileItems[j].label.replace(/</g,"&lt;")}</small>`:""}</div>`}).join("")+"</div></div>"}
+      const lab=k===0?`<small>${mode==="text"?"Line "+(j+1):esc((fileItems[j]||{}).label||"")}</small>`:"";
+      return `<div class="node${bad?" bad":""}" title="${h}">${h.slice(0,8)}${lab}</div>`}).join("")+"</div></div>"}
   $("tree").innerHTML=out}
-async function seal(){const it=await items();if(!it.length){log("Nothing to seal");return}
-  const lv=await levels(it.map(c=>c.hash));
-  sealed={mode,items:it,levels:lv,root:lv.at(-1)[0],text:mode==="text"?$("txt").value:null,time:new Date().toISOString()};
-  log(`Sealed ${it.length} record${it.length>1?"s":""}, root ${short(sealed.root)}`);render.last=null;await render()}
-function setMode(m){mode=m;$("mText").setAttribute("aria-pressed",m==="text");$("mFiles").setAttribute("aria-pressed",m==="files");
-  $("textBox").hidden=m!=="text";$("fileBox").hidden=m!=="files";$("restore").hidden=m!=="text";
-  $("modehint").textContent=m==="text"?"Each line is one record: certificates, invoices, log lines, CSV rows.":"Each chosen file is one record. Any file type works.";render.last=null;render()}
-$("mText").onclick=()=>setMode("text");$("mFiles").onclick=()=>setMode("files");
-$("txt").oninput=render;$("seal").onclick=seal;
-$("files").onchange=async e=>{fileItems=await Promise.all([...e.target.files].map(async f=>({label:f.name,hash:hex(await H(0,new Uint8Array(await f.arrayBuffer())))})));fileItems.sort((a,b)=>a.label<b.label?-1:1);log(fileItems.length+" file(s) read");render()};
-$("restore").onclick=()=>{if(sealed&&sealed.text!==null){$("txt").value=sealed.text;log("Restored sealed text");render()}else log("No sealed text to restore")};
-$("save").onclick=async()=>{if(!sealed){log("Seal first, then save");return}
-  const txt=JSON.stringify({mode:sealed.mode,items:sealed.items,root:sealed.root,time:sealed.time},null,1);
-  try{const d=window.claude&&await claude.use("downloads");
-    if(d){await d.save({filename:"verileaf-seal.json",data:txt});log("Seal file saved");return}}
-  catch(e){if(e&&e.code==="declined"){log("Save cancelled");return}}
-  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download="verileaf-seal.json";a.click();log("Seal file saved")};
+async function makeBase(source){const it=await items();if(!it.length){log("Add some data first.");return false}
+  const lv=await levels(it.map(c=>c.hash));base={mode,items:it,levels:lv,root:lv.at(-1)[0],text:mode==="text"?$("txt").value:null,time:new Date().toLocaleString(),source};lastKey=null;return true}
+$("create").onclick=async()=>{if(await makeBase("created in this session")){log(`Baseline created: ${base.items.length} records, root ${short(base.root)}`);render()}};
+let armed=false;const disarm=()=>{armed=false;$("accept").textContent="Accept current data as new baseline"};
+$("accept").onclick=async()=>{if(!armed){armed=true;$("accept").textContent="Click again to confirm";setTimeout(disarm,5000);return}
+  disarm();const old=base.root;if(await makeBase("accepted from current data")){log(`Baseline replaced: current data accepted (old root ${short(old)}, new root ${short(base.root)})`);render()}};
+$("restore").onclick=()=>{if(base&&base.text!=null){$("txt").value=base.text;log("Text restored to the baseline version.");render()}};
+$("save").onclick=()=>{const j=JSON.stringify({format:"VeriLeaf baseline",version:1,mode:base.mode,created:base.time,root:base.root,items:base.items,snapshot:base.text},null,1);
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([j],{type:"application/json"}));a.download="verileaf-baseline.json";a.click();log("Baseline saved to verileaf-baseline.json")};
 $("loadb").onclick=()=>$("load").click();
-$("load").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text()),lv=await levels(j.items.map(i=>i.hash));
-  if(lv.at(-1)[0]!==j.root)throw 0;sealed={mode:j.mode,items:j.items,levels:lv,root:j.root,text:null,time:j.time};log("Seal file loaded: "+j.items.length+" records, root "+short(j.root)+". Comparing with your current data…");setMode(j.mode);setTimeout(()=>$("banner").scrollIntoView({behavior:"smooth",block:"center"}),150)}
-  catch{log("Seal file rejected: its fingerprints do not match its root")}e.target.value=""};
-(async()=>{$("txt").value=SAMPLE.join("\n");setMode("text");await seal()})();
+$("load").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;
+  try{const j=JSON.parse(await f.text()),lv=await levels(j.items.map(i=>i.hash));if(lv.at(-1)[0]!==j.root)throw 0;
+    base={mode:j.mode,items:j.items,levels:lv,root:j.root,text:j.snapshot??null,time:j.created||"unknown",source:"loaded from "+f.name};lastKey=null;
+    log(`Baseline loaded from ${f.name}: ${j.items.length} records, root ${short(j.root)}`);setMode(j.mode)}
+  catch{log("Baseline file rejected: its fingerprints do not match its root, so it was edited or is not a VeriLeaf file.")}};
+function setMode(m){mode=m;$("mText").setAttribute("aria-pressed",m==="text");$("mFiles").setAttribute("aria-pressed",m==="files");
+  $("textBox").hidden=m!=="text";$("fileBox").hidden=m!=="files";
+  $("modehint").textContent=m==="text"?"Each line is one record: certificates, invoices, log lines, CSV rows.":"Each chosen file is one record. Any file type works.";lastKey=null;render()}
+$("mText").onclick=()=>setMode("text");$("mFiles").onclick=()=>setMode("files");$("txt").oninput=render;
+$("files").onchange=async e=>{fileItems=await Promise.all([...e.target.files].map(async f=>({label:f.name,hash:hex(await H(0,new Uint8Array(await f.arrayBuffer())))})));
+  fileItems.sort((a,b)=>a.label<b.label?-1:1);log(fileItems.length+" file(s) read");render()};
+$("txt").value=SAMPLE.join("\n");setMode("text");
 </script></body></html>
