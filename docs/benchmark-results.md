@@ -1,92 +1,62 @@
 # VeriLeaf Benchmark Results
 
+## Objective
 
+Compare straightforward Merkle-tree operations with implementations that use
+Merkle-tree structure to reduce work.
 
-## 1. Objective
+## What was measured
 
+The benchmark uses datasets of 1,000, 10,000, and 100,000 records.
 
+- **Verify one record:** rebuild the tree and compare its root versus verify a Merkle proof.
+- **Update one record:** rebuild the tree after changing one record versus update a leaf and recalculate its path to the root.
+- **Locate a tampered record:** compare leaf hashes versus use `find_changed` to locate the changed record.
 
-The objective of this benchmark is to compare naive verification, which rebuilds the Merkle tree, with Merkle proof verification. The benchmark measures execution time for different dataset sizes.
+## Results
 
+The measured timings are stored in `results.csv` and visualized in `results.png`.
+Timings can vary with hardware, operating system, Python version, and system load.
 
+The benchmark compares operations with different amounts of work, so results
+should be interpreted in the context of each operation. Tree construction is
+outside the timed update operation.
 
-## 2. Implementation
-
-
+## Implementation
 
 - `datasets.py` generates sample records.
-
-- `benchmark.py` measures verification runtimes.
-
-- `results.csv` stores the measured results.
-
-- `plot_results.py` generates a graph from the CSV data.
-
+- `benchmark.py` runs the timing experiments and writes `results.csv`.
+- `plot_results.py` generates the graph from the CSV data.
 - `results.png` contains the generated benchmark visualization.
 
+## Limitations
 
+These measurements reflect one local environment. They do not, by themselves,
+prove theoretical time complexity or guarantee the same performance on other
+machines.
 
-## 3. Methodology
-
-
-
-The benchmark uses datasets of different sizes and measures average execution time over repeated runs. The timings are recorded in milliseconds.
-
-
-
-## 4. Results
-
-
-
-The actual measurements are available in `results.csv` and visualized in `results.png`.
-
-
-
-The results should be interpreted based on the measured timings. Runtime can vary with hardware, Python version, and implementation details.
-
-
-
-## 5. Limitations
-
-
-
-The measurements reflect the local test environment and do not establish theoretical time complexity by themselves. The benchmark compares rebuilding a tree with verifying a proof, so the two operations have different workloads.
-
-
-
-## 6. Reproduction
-
-
+## Reproduction
 
 Install dependencies:
 
-
-
-`python -m pip install -r requirements.txt`
-
-
+```bash
+python -m pip install -r requirements.txt
+```
 
 Generate benchmark results:
 
-
-
-`python benchmark.py`
-
-
+```bash
+python benchmark.py
+```
 
 Generate the graph:
 
-
-
-`python plot_results.py`
-
-
+```bash
+python plot_results.py
+```
 
 Run tests:
 
-
-
-`python -m pytest -v`
-
-
-
+```bash
+python -m pytest -v
+```

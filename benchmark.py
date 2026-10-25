@@ -45,13 +45,9 @@ def bench_update(n):
         changed[index] = "changed"
         return MerkleTree(changed).root
 
-    def update_one():
-        tree = MerkleTree(data)
-        tree.update(index, "changed")
-        return tree.root
-
+    tree = MerkleTree(data)  # built once, outside the timing
     naive = timeit(rebuild, reps=3)
-    fast = timeit(update_one, reps=3)
+    fast = timeit(lambda: tree.update(index, "changed"), reps=3)
 
     return naive, fast
 
