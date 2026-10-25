@@ -1,36 +1,62 @@
 # VeriLeaf Benchmark Results
 
-![Benchmark graph](../results.png)
+## Objective
+
+Compare straightforward Merkle-tree operations with implementations that use
+Merkle-tree structure to reduce work.
 
 ## What was measured
 
-Three operations were timed for n = 1,000, 10,000, and 100,000 records:
+The benchmark uses datasets of 1,000, 10,000, and 100,000 records.
 
-- **Verify one record** — rebuild the whole tree from every record and compare roots (naive) vs. check a Merkle proof (tree).
-- **Update one record** — rebuild the whole tree after changing one record (naive) vs. call `tree.update` which recomputes only the path from the changed leaf to the root (tree).
-- **Locate a tampered record** — scan every leaf hash until one differs (naive) vs. walk down the tree with `find_changed`, skipping any subtree whose root hash already matches (tree).
+- **Verify one record:** rebuild the tree and compare its root versus verify a Merkle proof.
+- **Update one record:** rebuild the tree after changing one record versus update a leaf and recalculate its path to the root.
+- **Locate a tampered record:** compare leaf hashes versus use `find_changed` to locate the changed record.
 
 ## Results
 
-| n | Task | Naive (ms) | Tree (ms) |
-|---|---|---:|---:|
-| 1,000 | verify one record | 1.8040 | 0.0094 |
-| 1,000 | update one record | 1.8942 | 0.0142 |
-| 1,000 | locate tampered record | 0.0744 | 0.0090 |
-| 10,000 | verify one record | 22.2804 | 0.0129 |
-| 10,000 | update one record | 19.9797 | 0.0173 |
-| 10,000 | locate tampered record | 0.9688 | 0.0153 |
-| 100,000 | verify one record | 212.6494 | 0.0205 |
-| 100,000 | update one record | 217.5706 | 0.0245 |
-| 100,000 | locate tampered record | 10.7501 | 0.0467 |
+The measured timings are stored in `results.csv` and visualized in `results.png`.
+Timings can vary with hardware, operating system, Python version, and system load.
 
-## What the graph shows
+The benchmark compares operations with different amounts of work, so results
+should be interpreted in the context of each operation. Tree construction is
+outside the timed update operation.
 
-For all three tasks, the naive time grows roughly in proportion to n (multiplying n by 10 multiplies the naive time by about 10). The tree times stay nearly flat across all values of n. At n = 100,000, the tree is approximately 10,000 times faster than the naive approach for verify and update, and about 230 times faster for locate.
+## Implementation
 
-The axes are logarithmic so that both the flat tree lines and the steeply rising naive lines are visible on the same plot. On a linear scale the tree times would be indistinguishable from zero.
+- `datasets.py` generates sample records.
+- `benchmark.py` runs the timing experiments and writes `results.csv`.
+- `plot_results.py` generates the graph from the CSV data.
+- `results.png` contains the generated benchmark visualization.
 
 ## Limitations
 
-- Timings depend on hardware, operating system, and Python version; results on other machines may differ.
-- Building the tree is still O(n) and is not included in any of the timed operations above; the tree is always constructed outside the measured section.
+These measurements reflect one local environment. They do not, by themselves,
+prove theoretical time complexity or guarantee the same performance on other
+machines.
+
+## Reproduction
+
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Generate benchmark results:
+
+```bash
+python benchmark.py
+```
+
+Generate the graph:
+
+```bash
+python plot_results.py
+```
+
+Run tests:
+
+```bash
+python -m pytest -v
+```
