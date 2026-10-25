@@ -20,7 +20,7 @@ using a Merkle (hash) tree built in Python.
 
 Requires Python 3.8 or later.
 
-Install dependencies first (installs matplotlib and pytest):
+Requires installation of dependencies first (installs matplotlib and pytest):
 
 ```bash
 pip install -r requirements.txt
@@ -50,17 +50,16 @@ python plot_results.py
 
 ![Sealed records](docs/screenshot-sealed.png)
 
+![Sealed records, second view](docs/screenshot-sealed1.png)
+
 ![Tampered record](docs/screenshot-tampered.png)
 
+![Tampered record, second view](docs/screenshot-tampered1.png)
+
 ## Team
-
-| Member | Contribution |
-|---|---|
+| Member             | Contribution                                |
+|--------------------|---------------------------------------------|
 | Sahana Arunprasath | Core Merkle tree, repository setup, reviews |
-| Kanishka S | Proofs and finding changed records |
-| Haricharan | Sample data, benchmark and graph |
-| Sanjana Chowdhary | Dashboard, demo and documentation |
-
-## Note on AI assistance
-
-The initial code was AI-assisted. The team reviewed, tested and extended it, and each member can explain the part they worked on.
+| Kanishka S         | Proofs and finding changed records          |
+| Haricharan         | Sample data, benchmark and graph            |
+| Sanjana Chowdhary  | Dashboard, demo and documentation           |
