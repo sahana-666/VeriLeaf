@@ -1,8 +1,8 @@
-\# VeriLeaf Benchmark Results
+# VeriLeaf Benchmark Results
 
 
 
-\## 1. Objective
+## 1. Objective
 
 
 
@@ -10,23 +10,23 @@ The objective of this benchmark is to compare naive verification, which rebuilds
 
 
 
-\## 2. Implementation
+## 2. Implementation
 
 
 
-\- `datasets.py` generates sample records.
+- `datasets.py` generates sample records.
 
-\- `benchmark.py` measures verification runtimes.
+- `benchmark.py` measures verification runtimes.
 
-\- `results.csv` stores the measured results.
+- `results.csv` stores the measured results.
 
-\- `plot\_results.py` generates a graph from the CSV data.
+- `plot_results.py` generates a graph from the CSV data.
 
-\- `results.png` contains the generated benchmark visualization.
+- `results.png` contains the generated benchmark visualization.
 
 
 
-\## 3. Methodology
+## 3. Methodology
 
 
 
@@ -34,7 +34,7 @@ The benchmark uses datasets of different sizes and measures average execution ti
 
 
 
-\## 4. Results
+## 4. Results
 
 
 
@@ -46,7 +46,7 @@ The results should be interpreted based on the measured timings. Runtime can var
 
 
 
-\## 5. Limitations
+## 5. Limitations
 
 
 
@@ -54,7 +54,7 @@ The measurements reflect the local test environment and do not establish theoret
 
 
 
-\## 6. Reproduction
+## 6. Reproduction
 
 
 
@@ -78,7 +78,7 @@ Generate the graph:
 
 
 
-`python plot\_results.py`
+`python plot_results.py`
 
 
 
