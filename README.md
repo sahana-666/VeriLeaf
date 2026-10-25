@@ -1,3 +1,8 @@
+# VeriLeaf: Tamper-Evident Record Verification Using Merkle Trees
+
+VeriLeaf detects tampering in digital records and pinpoints exactly which record was changed,
+using a Merkle (hash) tree built in Python.
+
 ## Files
 
 | File | Purpose |
@@ -15,15 +20,21 @@
 
 Requires Python 3.8 or later.
 
+Install dependencies first (installs matplotlib and pytest):
+
 ```bash
-python -m unittest -v
+pip install -r requirements.txt
+```
+
+Then run:
+
+```bash
+python -m pytest -v
 python demo.py
 python proof_demo.py
 python benchmark.py
 python plot_results.py
 ```
-
-Install dependencies using `pip install -r requirements.txt` if needed for the graph.
 
 ## Complexity
 
@@ -34,11 +45,6 @@ Install dependencies using `pip install -r requirements.txt` if needed for the g
 | Update one record | O(log n) |
 | Locate k tampered records | O(k log n) |
 | Append a record | O(n) |
-
-# VeriLeaf: Tamper-Evident Record Verification Using Merkle Trees
-
-VeriLeaf detects tampering in digital records and pinpoints exactly which record was changed,
-using a Merkle (hash) tree built in Python.
 
 ## Screenshots
 
